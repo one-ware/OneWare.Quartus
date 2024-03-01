@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <Version>0.1</Version>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <EnableDynamicLoading>true</EnableDynamicLoading>
+        <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+        <SelfContained>false</SelfContained>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Content Include="oneware.json" CopyToOutputDirectory="PreserveNewest"/>
+        <AvaloniaResource Include="Assets\**\*.*" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="OneWare.Essentials" Version="0.1" Private="false" ExcludeAssets="runtime;Native"/>
+    </ItemGroup>
+    
+</Project>

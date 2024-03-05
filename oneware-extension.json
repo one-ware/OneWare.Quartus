@@ -1,9 +1,9 @@
 {
   "category": "Tools",
   "type": "Plugin",
-  "name": "OneWare.Quartus Extension",
+  "name": "OneWare Quartus Extension",
   "id": "OneWare.QuartusModule",
-  "description": "OneWare.Quartus for OneWare",
+  "description": "Quartus Integration for OneWare",
   "license": "MIT",
   "iconUrl": "https://raw.githubusercontent.com/one-ware/OneWare.Quartus/main/Icon.png",
   "tabs": [

@@ -6,6 +6,8 @@ using OneWare.Essentials.Models;
 using OneWare.Essentials.Services;
 using OneWare.Essentials.ViewModels;
 using OneWare.Quartus.Services;
+using OneWare.Quartus.ViewModels;
+using OneWare.Quartus.Views;
 using OneWare.UniversalFpgaProjectSystem.Models;
 using OneWare.UniversalFpgaProjectSystem.Services;
 using Prism.Ioc;
@@ -25,6 +27,7 @@ public class QuartusModule : IModule
         var settingsService = containerProvider.Resolve<ISettingsService>();
         var quartusService = containerProvider.Resolve<QuartusService>();
 
+        containerProvider.Resolve<IWindowService>().RegisterUiExtension<QuartusCompileWindowExtensionView>("CompileWindow_TopRightExtension", containerProvider.Resolve<QuartusCompileWindowExtensionViewModel>());
         containerProvider.Resolve<FpgaService>().RegisterToolchain<QuartusToolchain>();
         containerProvider.Resolve<FpgaService>().RegisterLoader<QuartusLoader>();
 
@@ -57,22 +60,6 @@ public class QuartusModule : IModule
 
             Environment.SetEnvironmentVariable("PATH", $"{environmentPathSetting}{currentPath}");
         });
-
-        // containerProvider.Resolve<IProjectExplorerService>().RegisterConstructContextMenu(x =>
-        // {
-        //     if (x is [UniversalFpgaProjectRoot project])
-        //     {
-        //         return new[]
-        //         {
-        //             new MenuItemViewModel("Quartus")
-        //             {
-        //                 Header = "Compile with quartus",
-        //                 Command = new AsyncRelayCommand(() => quartusService.SynthAsync(project))
-        //             }
-        //         };
-        //     }
-        //     return null;
-        // });
     }
 
     private static bool IsQuartusPathValid(string path)

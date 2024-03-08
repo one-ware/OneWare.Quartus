@@ -31,8 +31,8 @@ public class QuartusCompileSettingsViewModel : FlexibleWindowViewModelBase
         _qsfPath = QsfHelper.GetQsfPath(fpgaProjectRoot);
         _qsfFile = QsfHelper.ReadQsf(_qsfPath);
         
-        _settings.Add(new QsfSettingComboBox(_qsfFile, "NUM_PARALLEL_PROCESSORS", "Parallel CPU Count", "Max processors Quartus will use to compile", 
-            Enumerable.Range(1, Environment.ProcessorCount).Select(x => x.ToString()).ToDictionary(x => x.ToString()), Environment.ProcessorCount.ToString()));
+        _settings.Add(new QsfSettingSlider(_qsfFile, "NUM_PARALLEL_PROCESSORS", "Parallel CPU Count", "Max processors Quartus will use to compile", 
+            Environment.ProcessorCount, 1, Environment.ProcessorCount, 1));
 
         _settings.Add(new QsfSettingComboBox(_qsfFile, "INTERNAL_FLASH_UPDATE_MODE", "Configuration Mode", "Quartus Configuration Mode", 
             new Dictionary<string, string>()

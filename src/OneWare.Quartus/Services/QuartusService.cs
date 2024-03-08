@@ -20,7 +20,7 @@ public class QuartusService(IChildProcessService childProcessService, ILogger lo
         var start = DateTime.Now;
         outputService.WriteLine("Compiling...\n==================", Brushes.CornflowerBlue);
         
-        await childProcessService.ExecuteShellAsync("quartus_sh",
+        var (success, _) =await childProcessService.ExecuteShellAsync("quartus_sh",
             $"--flow compile {Path.GetFileNameWithoutExtension(project.TopEntity.Header)}",
             project.FullPath, "Running Quartus Prime Shell...", AppState.Loading, true, (x) =>
             {
@@ -35,6 +35,9 @@ public class QuartusService(IChildProcessService childProcessService, ILogger lo
 
         var compileTime = DateTime.Now - start;
         
-        outputService.WriteLine($"==================\n\nCompilation finished after {(int)compileTime.TotalMinutes:D2}:{compileTime.Seconds:D2}\n");
+        if(success)
+            outputService.WriteLine($"==================\n\nCompilation finished after {(int)compileTime.TotalMinutes:D2}:{compileTime.Seconds:D2}\n");
+        else
+            outputService.WriteLine($"==================\n\nCompilation failed after {(int)compileTime.TotalMinutes:D2}:{compileTime.Seconds:D2}\n", Brushes.Red);
     }
 }

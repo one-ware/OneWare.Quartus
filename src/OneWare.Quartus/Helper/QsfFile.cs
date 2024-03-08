@@ -12,6 +12,9 @@ public partial class QsfFile(string[] lines)
     [GeneratedRegex(@"set_location_assignment\s")]
     private static partial Regex RemoveLocationAssignmentRegex();
     
+    [GeneratedRegex(@"set_global_assignment\s-name\s\w+_FILE\s(.+)")]
+    private static partial Regex RemoveFileAssignmentRegex();
+    
     public List<string> Lines { get; private set; } = lines.ToList();
 
     public string? GetGlobalAssignment(string propertyName)
@@ -69,6 +72,12 @@ public partial class QsfFile(string[] lines)
     public void AddLocationAssignment(string pin, string node)
     {
         Lines.Add($"set_location_assignment PIN_{pin} -to {node}");
+    }
+    
+    public void RemoveFileAssignments()
+    {
+        var regex = RemoveFileAssignmentRegex();
+        Lines = Lines.Where(x => !regex.IsMatch(x)).ToList();
     }
     
     public void RemoveLocationAssignments()

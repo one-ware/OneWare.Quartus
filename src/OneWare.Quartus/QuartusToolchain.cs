@@ -52,17 +52,17 @@ public class QuartusToolchain(QuartusService quartusService, ILogger logger) : I
             qsf.SetGlobalAssignment("TOP_LEVEL_ENTITY", topEntity);
             
             //Add Files
+            qsf.RemoveFileAssignments();
             foreach (var file in project.Files)
             {
                 qsf.AddFile(file);
             }
 
+            //Add Connections
             qsf.RemoveLocationAssignments();
-            foreach (var (_, pinModel) in fpga.PinModels)
+            foreach (var (_, pinModel) in fpga.PinModels.Where(x => x.Value.Connection != null))
             {
-                if(pinModel.Connection == null) continue;
-                
-                qsf.AddLocationAssignment(pinModel.Pin.Name, pinModel.Connection.Node.Name);
+                qsf.AddLocationAssignment(pinModel.Pin.Name, pinModel.Connection!.Node.Name);
             }
                 
             QsfHelper.WriteQsf(qsfPath, qsf);

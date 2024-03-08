@@ -7,7 +7,15 @@
              x:Class="OneWare.Quartus.Views.QuartusCompileWindowExtensionView"
              x:DataType="viewModels:QuartusCompileWindowExtensionViewModel"
              IsVisible="{Binding IsVisible}">
-    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-        <TextBlock Text="More Quartus settings coming soon..."/>
-    </StackPanel>
+    <Border Classes="RoundToolBar">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <Button Command="{Binding OpenCompileSettingsAsync}">
+                <StackPanel Orientation="Horizontal" Spacing="5">
+                    <TextBlock VerticalAlignment="Center" Text="Quartus Settings" />
+                    <Image Source="avares://OneWare.Quartus/Assets/Quartus_prime.png" VerticalAlignment="Center"
+                           Height="20" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </Border>
 </UserControl>

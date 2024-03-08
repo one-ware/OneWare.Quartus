@@ -1,5 +1,5 @@
 {
-  "category": "Tools",
+  "category": "Toolchains",
   "type": "Plugin",
   "name": "OneWare Quartus Extension",
   "id": "OneWare.QuartusModule",

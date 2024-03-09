@@ -7,7 +7,7 @@ using OneWare.UniversalFpgaProjectSystem.Models;
 
 namespace OneWare.Quartus.Services;
 
-public class QuartusService(IChildProcessService childProcessService, ILogger logger, IOutputService outputService)
+public class QuartusService(IChildProcessService childProcessService, ILogger logger, IOutputService outputService, IDockService dockService)
 {
     public async Task CompileAsync(UniversalFpgaProjectRoot project, FpgaModel fpga)
     {
@@ -17,6 +17,8 @@ public class QuartusService(IChildProcessService childProcessService, ILogger lo
             return;
         }
 
+        dockService.Show<IOutputService>();
+        
         var start = DateTime.Now;
         outputService.WriteLine("Compiling...\n==================", Brushes.CornflowerBlue);
         

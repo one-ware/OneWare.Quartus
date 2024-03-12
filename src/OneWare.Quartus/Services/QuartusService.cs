@@ -23,7 +23,7 @@ public class QuartusService(IChildProcessService childProcessService, ILogger lo
         outputService.WriteLine("Compiling...\n==================", Brushes.CornflowerBlue);
         
         var (success, _) =await childProcessService.ExecuteShellAsync("quartus_sh",
-            $"--flow compile {Path.GetFileNameWithoutExtension(project.TopEntity.Header)}",
+            ["--flow", "compile", Path.GetFileNameWithoutExtension(project.TopEntity.Header)],
             project.FullPath, "Running Quartus Prime Shell...", AppState.Loading, true, (x) =>
             {
                 var output = x.TrimStart();

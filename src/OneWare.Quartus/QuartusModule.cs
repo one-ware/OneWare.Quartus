@@ -27,7 +27,10 @@ public class QuartusModule : IModule
         var settingsService = containerProvider.Resolve<ISettingsService>();
         var quartusService = containerProvider.Resolve<QuartusService>();
 
-        containerProvider.Resolve<IWindowService>().RegisterUiExtension<QuartusCompileWindowExtensionView>("CompileWindow_TopRightExtension", containerProvider.Resolve<QuartusCompileWindowExtensionViewModel>());
+        containerProvider.Resolve<IWindowService>().RegisterUiExtension("CompileWindow_TopRightExtension", new UiExtension(x => new QuartusCompileWindowExtensionView()
+        {
+            DataContext = containerProvider.Resolve<QuartusCompileWindowExtensionViewModel>()
+        }));
         containerProvider.Resolve<FpgaService>().RegisterToolchain<QuartusToolchain>();
         containerProvider.Resolve<FpgaService>().RegisterLoader<QuartusLoader>();
 

@@ -30,6 +30,7 @@ public class QuartusLoader(IChildProcessService childProcessService, ILogger log
         var fpga = project.Properties["Fpga"];
         if (fpga == null) return;
         var fpgaModel = fpga.ToString();
+        var mode = "JTAG";
 
         var cableSetting = "Auto";
         var cableName = cableSetting == "Auto"
@@ -44,7 +45,7 @@ public class QuartusLoader(IChildProcessService childProcessService, ILogger log
             return;
         }
         
-        await childProcessService.ExecuteShellAsync("quartus_pgm", $"-c {cableName} -m JTAG -o P;{sofFile}",
+        await childProcessService.ExecuteShellAsync("quartus_pgm", ["-c", cableName, "-m", mode, "-o", $"p;{sofFile}"],
             project.FullPath, "Running Quartus programmer (Short-Term)...");
     }
 }

@@ -33,6 +33,7 @@ public class QuartusService(IChildProcessService childProcessService, ILogger lo
                     else if(output.StartsWith("Warning (") || output.StartsWith("Critical Warning ("))  outputService.WriteLine(x, Brushes.Orange);
                     else outputService.WriteLine(x);
                 });
+                return true;
             });
 
         var compileTime = DateTime.Now - start;

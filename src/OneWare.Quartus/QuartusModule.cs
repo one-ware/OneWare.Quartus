@@ -48,9 +48,7 @@ public class QuartusModule : IModule
         settingsService.RegisterTitledPath("Tools", "Quartus", "Quartus_Path", "Quartus Path",
             "Sets the path for Quartus", defaultQuartusPath, null, null, IsQuartusPathValid);
 
-        string? environmentPathSetting;
-
-        settingsService.GetSettingObservable<string>("Quartus_Path").Skip(1).Subscribe(x =>
+        settingsService.GetSettingObservable<string>("Quartus_Path").Subscribe(x =>
         {
             if (string.IsNullOrEmpty(x)) return;
 
@@ -59,19 +57,12 @@ public class QuartusModule : IModule
                 containerProvider.Resolve<ILogger>().Warning("Quartus path invalid", null, false);
                 return;
             }
-
+            
             var binPath = Path.Combine(x, "bin");
             var bin64Path = Path.Combine(x, "bin64");
 
-            environmentPathSetting = PlatformHelper.Platform switch
-            {
-                PlatformId.WinX64 or PlatformId.WinArm64 => $";{bin64Path};",
-                _ => $":{binPath}:"
-            };
-
-            var currentPath = Environment.GetEnvironmentVariable("PATH");
-
-            Environment.SetEnvironmentVariable("PATH", $"{environmentPathSetting}{currentPath}");
+            ContainerLocator.Container.Resolve<IEnvironmentService>().SetPath("Quartus_Bin64", bin64Path);
+            ContainerLocator.Container.Resolve<IEnvironmentService>().SetPath("Quartus_Bin", binPath);
         });
     }
 

@@ -10,6 +10,11 @@ public class QuartusToolchain(QuartusService quartusService, ILogger logger) : I
 {
     public string Name => "Quartus";
 
+    public void OnProjectCreated(UniversalFpgaProjectRoot project)
+    {
+        //TODO Add gitignore defaults
+    }
+
     public void LoadConnections(UniversalFpgaProjectRoot project, FpgaModel fpga)
     {
         try

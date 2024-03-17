@@ -9,12 +9,12 @@ namespace OneWare.Quartus.Services;
 
 public class QuartusService(IChildProcessService childProcessService, ILogger logger, IOutputService outputService, IDockService dockService)
 {
-    public async Task CompileAsync(UniversalFpgaProjectRoot project, FpgaModel fpga)
+    public async Task<bool> CompileAsync(UniversalFpgaProjectRoot project, FpgaModel fpga)
     {
         if (project.TopEntity == null)
         {
             logger.Error("No TopEntity set");
-            return;
+            return false;
         }
 
         dockService.Show<IOutputService>();
@@ -42,5 +42,7 @@ public class QuartusService(IChildProcessService childProcessService, ILogger lo
             outputService.WriteLine($"==================\n\nCompilation finished after {(int)compileTime.TotalMinutes:D2}:{compileTime.Seconds:D2}\n");
         else
             outputService.WriteLine($"==================\n\nCompilation failed after {(int)compileTime.TotalMinutes:D2}:{compileTime.Seconds:D2}\n", Brushes.Red);
+
+        return success;
     }
 }

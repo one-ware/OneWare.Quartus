@@ -60,7 +60,7 @@ public class QuartusToolchain(QuartusService quartusService, ILogger logger) : I
         }
     }
 
-    public Task CompileAsync(UniversalFpgaProjectRoot project, FpgaModel fpga)
+    public Task<bool> CompileAsync(UniversalFpgaProjectRoot project, FpgaModel fpga)
     {
         try
         {
@@ -93,7 +93,7 @@ public class QuartusToolchain(QuartusService quartusService, ILogger logger) : I
         catch (Exception e)
         {
             logger.Error(e.Message, e);
-            return Task.CompletedTask;
+            return Task.FromResult(false);
         }
     }
 }

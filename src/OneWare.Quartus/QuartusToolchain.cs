@@ -8,6 +8,7 @@ namespace OneWare.Quartus;
 
 public class QuartusToolchain(QuartusService quartusService, ILogger logger) : IFpgaToolchain
 {
+
     public string Name => "Quartus";
 
     public void OnProjectCreated(UniversalFpgaProjectRoot project)
@@ -78,8 +79,8 @@ public class QuartusToolchain(QuartusService quartusService, ILogger logger) : I
         }
     }
 
-    public void StartCompile(UniversalFpgaProjectRoot project, FpgaModel fpga)
+    public Task CompileAsync(UniversalFpgaProjectRoot project, FpgaModel fpga)
     {
-        _ = quartusService.CompileAsync(project, fpga);
+        return quartusService.CompileAsync(project, fpga);
     }
 }

@@ -42,6 +42,28 @@ public class QuartusToolchain(QuartusService quartusService, ILogger logger) : I
     {
         try
         {
+            var qsfPath = QsfHelper.GetQsfPath(project);
+            var qsf = QsfHelper.ReadQsf(qsfPath);
+
+            //Add Connections
+            qsf.RemoveLocationAssignments();
+            foreach (var (_, pinModel) in fpga.PinModels.Where(x => x.Value.Connection != null))
+            {
+                qsf.AddLocationAssignment(pinModel.Pin.Name, pinModel.Connection!.Node.Name);
+            }
+                
+            QsfHelper.WriteQsf(qsfPath, qsf);
+        }
+        catch (Exception e)
+        {
+            logger.Error(e.Message, e);
+        }
+    }
+
+    public Task CompileAsync(UniversalFpgaProjectRoot project, FpgaModel fpga)
+    {
+        try
+        {
             var topEntity = project.TopEntity?.Header ?? throw new Exception("No TopEntity set!");
             topEntity = Path.GetFileNameWithoutExtension(topEntity);
 
@@ -63,24 +85,15 @@ public class QuartusToolchain(QuartusService quartusService, ILogger logger) : I
             {
                 qsf.AddFile(file);
             }
-
-            //Add Connections
-            qsf.RemoveLocationAssignments();
-            foreach (var (_, pinModel) in fpga.PinModels.Where(x => x.Value.Connection != null))
-            {
-                qsf.AddLocationAssignment(pinModel.Pin.Name, pinModel.Connection!.Node.Name);
-            }
-                
+            
             QsfHelper.WriteQsf(qsfPath, qsf);
+            
+            return quartusService.CompileAsync(project, fpga);
         }
         catch (Exception e)
         {
             logger.Error(e.Message, e);
+            return Task.CompletedTask;
         }
-    }
-
-    public Task CompileAsync(UniversalFpgaProjectRoot project, FpgaModel fpga)
-    {
-        return quartusService.CompileAsync(project, fpga);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Avalonia.Threading;
+﻿using Avalonia.Controls;
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using DynamicData.Binding;
 using OneWare.Essentials.Services;
@@ -38,8 +39,9 @@ public class QuartusCompileWindowExtensionViewModel : ObservableObject
         });
     }
 
-    public async Task OpenCompileSettingsAsync()
+    public async Task OpenCompileSettingsAsync(Control owner)
     {
+        var ownerWindow = TopLevel.GetTopLevel(owner) as Window;
         await Dispatcher.UIThread.InvokeAsync(async () =>
         {
             try
@@ -47,7 +49,7 @@ public class QuartusCompileWindowExtensionViewModel : ObservableObject
                 if (_projectExplorerService.ActiveProject is UniversalFpgaProjectRoot fpgaProjectRoot)
                 {
                     await _windowService.ShowDialogAsync(new QuartusCompileSettingsView()
-                        { DataContext = new QuartusCompileSettingsViewModel(fpgaProjectRoot) });
+                        { DataContext = new QuartusCompileSettingsViewModel(fpgaProjectRoot) }, ownerWindow);
                 }
             }
             catch (Exception e)

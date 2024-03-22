@@ -50,7 +50,7 @@ public class QuartusLoaderSettingsViewModel : FlexibleWindowViewModelBase
             defaultProperties.GetValueOrDefault("QuartusProgrammer_ShortTerm_Arguments") ?? "");
         
         _longTermModeSetting = new ComboBoxSetting("Long Term Mode", "Mode to use for Long Term Programming",
-            defaultProperties.GetValueOrDefault("QuartusProgrammer_LongTerm_Mode") ?? "", ["JTAG", "CJTAG", "AS", "PS"]);
+            defaultProperties.GetValueOrDefault("QuartusProgrammer_LongTerm_Mode") ?? "", ["JTAG", "AS", "PS", "SD"]);
             
         _longTermOperationSetting = new TitledSetting("Long Term Operation", "Operation to use for Long Term Programming",
             defaultProperties.GetValueOrDefault("QuartusProgrammer_LongTerm_Operation") ?? "");

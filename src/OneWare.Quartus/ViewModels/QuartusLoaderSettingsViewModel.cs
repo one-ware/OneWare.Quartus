@@ -41,7 +41,7 @@ public class QuartusLoaderSettingsViewModel : FlexibleWindowViewModelBase
         _settings = FpgaSettingsParser.LoadSettings(projectRoot, fpga.Name);
         
         _shortTermModeSetting = new ComboBoxSetting("Short Term Mode", "Mode to use for Short Term Programming",
-            defaultProperties.GetValueOrDefault("QuartusProgrammer_ShortTerm_Mode") ?? "", ["JTAG", "CJTAG", "AS", "PS"]);
+            defaultProperties.GetValueOrDefault("QuartusProgrammer_ShortTerm_Mode") ?? "", ["JTAG", "AS", "PS", "SD"]);
         
         _shortTermOperationSetting = new TitledSetting("Short Term Operation", "Operation to use for Short Term Programming",
             defaultProperties.GetValueOrDefault("QuartusProgrammer_ShortTerm_Operation") ?? "");

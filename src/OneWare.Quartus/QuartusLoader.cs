@@ -54,13 +54,13 @@ public class QuartusLoader(IChildProcessService childProcessService, ISettingsSe
                 return;
             }
 
-            var shortTermMode = properties.GetValueOrDefault("QuartusProgrammer_ShortTermMode") ?? "JTAG";
-            var shortTermOperation = properties.GetValueOrDefault("QuartusProgrammer_ShortTermOperation") ?? "P";
+            var shortTermMode = properties.GetValueOrDefault("QuartusProgrammer_ShortTerm_Mode") ?? "JTAG";
+            var shortTermOperation = properties.GetValueOrDefault("QuartusProgrammer_ShortTerm_Operation") ?? "P";
             var shortTermArgs = properties.GetValueOrDefault("QuartusProgrammer_ShortTerm_Arguments")?.Split(' ') ?? [];
 
             List<string> pgmArgs = ["-c", cableName, "-m", shortTermMode];
             pgmArgs.AddRange(shortTermArgs);
-            pgmArgs.AddRange(["-o", $"p;{sofFile}"]);
+            pgmArgs.AddRange(["-o", $"{shortTermOperation};{sofFile}"]);
 
             await childProcessService.ExecuteShellAsync("quartus_pgm", pgmArgs,
                 project.FullPath, "Running Quartus programmer (Short-Term)...", AppState.Loading, true);
@@ -115,8 +115,8 @@ public class QuartusLoader(IChildProcessService childProcessService, ISettingsSe
                 programFile = convertedFilePath;
             }
 
-            var longTermMode = properties.GetValueOrDefault("QuartusProgrammer_LongTermMode") ?? "JTAG";
-            var longTermOperation = properties.GetValueOrDefault("QuartusProgrammer_LongTermOperation") ?? "P";
+            var longTermMode = properties.GetValueOrDefault("QuartusProgrammer_LongTerm_Mode") ?? "JTAG";
+            var longTermOperation = properties.GetValueOrDefault("QuartusProgrammer_LongTerm_Operation") ?? "P";
             var longTermArgs = properties.GetValueOrDefault("QuartusProgrammer_LongTerm_Arguments")?.Split(' ') ?? [];
             
             List<string> pgmArgs = ["-c", cableName, "-m", longTermMode];

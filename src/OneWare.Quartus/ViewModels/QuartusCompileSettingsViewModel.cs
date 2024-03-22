@@ -1,27 +1,22 @@
-﻿using DynamicData;
-using ImTools;
-using OneWare.Essentials.Controls;
+﻿using OneWare.Essentials.Controls;
 using OneWare.Essentials.ViewModels;
-using OneWare.ProjectSystem.Models;
 using OneWare.Quartus.Helper;
-using OneWare.Settings;
 using OneWare.Settings.ViewModels;
-using OneWare.Settings.ViewModels.SettingTypes;
 using OneWare.UniversalFpgaProjectSystem.Models;
 
 namespace OneWare.Quartus.ViewModels;
 
 public class QuartusCompileSettingsViewModel : FlexibleWindowViewModelBase
 {
-    private string _qsfPath;
-    private QsfFile _qsfFile;
+    private readonly string _qsfPath;
+    private readonly QsfFile _qsfFile;
     
     public SettingsCollectionViewModel SettingsCollection { get; } = new("Quartus Settings")
     {
         ShowTitle = false
     };
 
-    private List<IQsfSetting> _settings = [];
+    private readonly List<IQsfSetting> _settings = [];
     
     public QuartusCompileSettingsViewModel(UniversalFpgaProjectRoot fpgaProjectRoot)
     {

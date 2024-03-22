@@ -2,6 +2,7 @@
 using OneWare.Quartus.Helper;
 using OneWare.Quartus.Services;
 using OneWare.UniversalFpgaProjectSystem.Models;
+using OneWare.UniversalFpgaProjectSystem.Parser;
 using OneWare.UniversalFpgaProjectSystem.Services;
 
 namespace OneWare.Quartus;
@@ -66,15 +67,20 @@ public class QuartusToolchain(QuartusService quartusService, ILogger logger) : I
         {
             var topEntity = project.TopEntity?.Header ?? throw new Exception("No TopEntity set!");
             topEntity = Path.GetFileNameWithoutExtension(topEntity);
+            
+            var properties = FpgaSettingsParser.LoadSettings(project, fpga.Fpga.Name);
 
             var qsfPath = QsfHelper.GetQsfPath(project);
             var qsf = QsfHelper.ReadQsf(qsfPath);
+
+            var family = properties.GetValueOrDefault("QuartusToolchain_Family") ?? throw new Exception("No Family set!");
+            var device = properties.GetValueOrDefault("QuartusToolchain_Device") ?? throw new Exception("No Device set!");
             
             //Add Family
-            qsf.SetGlobalAssignment("FAMILY", fpga.Fpga.Family);
+            qsf.SetGlobalAssignment("FAMILY", family);
             
             //Add Device
-            qsf.SetGlobalAssignment("DEVICE", fpga.Fpga.Model);
+            qsf.SetGlobalAssignment("DEVICE", device);
             
             //Add toplevel
             qsf.SetGlobalAssignment("TOP_LEVEL_ENTITY", topEntity);

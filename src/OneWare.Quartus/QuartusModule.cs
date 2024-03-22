@@ -32,6 +32,14 @@ public class QuartusModule : IModule
         {
             DataContext = containerProvider.Resolve<QuartusCompileWindowExtensionViewModel>()
         }));
+        containerProvider.Resolve<IWindowService>().RegisterUiExtension("UniversalFpgaToolBar_DownloaderConfigurationExtension", new UiExtension(x =>
+        {
+            if (x is not UniversalFpgaProjectRoot cm) return null;
+            return new QuartusLoaderWindowExtensionView()
+            {
+                DataContext = containerProvider.Resolve<QuartusLoaderWindowExtensionViewModel>((typeof(UniversalFpgaProjectRoot), cm))
+            };
+        }));
         containerProvider.Resolve<FpgaService>().RegisterToolchain<QuartusToolchain>();
         containerProvider.Resolve<FpgaService>().RegisterLoader<QuartusLoader>();
 

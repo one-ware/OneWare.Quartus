@@ -100,6 +100,19 @@
           "url": "https://github.com/one-ware/OneWare.Quartus/releases/download/0.6/OneWare.QuartusExtension_0.6_linux-x64.zip"
         }
       ]
+    },
+    {
+      "version": "0.7",
+      "targets": [
+        {
+          "target": "win-x64",
+          "url": "https://github.com/one-ware/OneWare.Quartus/releases/download/0.7/OneWare.QuartusExtension_0.7_win-x64.zip"
+        },
+        {
+          "target": "linux-x64",
+          "url": "https://github.com/one-ware/OneWare.Quartus/releases/download/0.7/OneWare.QuartusExtension_0.7_linux-x64.zip"
+        }
+      ]
     }
   ]
 }

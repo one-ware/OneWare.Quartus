@@ -1,6 +1,7 @@
 ﻿using AvaloniaEdit.Utils;
 using DynamicData;
 using Microsoft.Extensions.Logging;
+using OneWare.Essentials.Behaviors;
 using OneWare.Essentials.Enums;
 using OneWare.Essentials.Services;
 using OneWare.UniversalFpgaProjectSystem.Models;

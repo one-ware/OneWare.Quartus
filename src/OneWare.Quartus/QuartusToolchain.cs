@@ -76,6 +76,9 @@ public class QuartusToolchain(QuartusService quartusService, ILogger logger) : I
             var family = properties.GetValueOrDefault("QuartusToolchain_Family") ?? throw new Exception("No Family set!");
             var device = properties.GetValueOrDefault("QuartusToolchain_Device") ?? throw new Exception("No Device set!");
             
+            //Add output path
+            qsf.SetGlobalAssignment("PROJECT_OUTPUT_DIRECTORY", "output_files");
+            
             //Add Family
             qsf.SetGlobalAssignment("FAMILY", family);
             

@@ -17,6 +17,38 @@ public partial class QsfFile(string[] lines)
     
     public List<string> Lines { get; private set; } = lines.ToList();
 
+    public string? GetQsfProperty(string propertyName)
+    {
+        var regex = new Regex(propertyName + @"\s(.+)");
+        foreach (var line in Lines)
+        {
+            var match = regex.Match(line);
+            if (match is { Success: true, Groups.Count: > 1 })
+            {
+                var value = match.Groups[1].Value;
+                if(value.Length > 0 && value[0] == '"' && value[^1] == '"') return value[1..^1];
+                return value;
+            }
+        }
+        return null;
+    }
+    
+    public void SetQsfProperty(string propertyName, string value)
+    {
+        var regex = new Regex(propertyName + @"\s(.+)");
+        var line= Lines.FindIndex(x => regex.IsMatch(x));
+        var newAssignment = $"{propertyName} {value}";
+        
+        if(line != -1)
+        {
+            Lines[line] = newAssignment;
+        }
+        else
+        {
+            Lines.Add(newAssignment);
+        }
+    }
+    
     public string? GetGlobalAssignment(string propertyName)
     {
         var regex = new Regex(@"set_global_assignment\s*-name\s" + propertyName + @"\s(.+)");

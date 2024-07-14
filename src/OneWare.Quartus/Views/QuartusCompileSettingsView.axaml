@@ -3,16 +3,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:OneWare.Essentials.Controls;assembly=OneWare.Essentials"
-        xmlns:behaviours="clr-namespace:OneWare.Essentials.Behaviours;assembly=OneWare.Essentials"
         xmlns:viewModels="clr-namespace:OneWare.Quartus.ViewModels"
+        xmlns:behaviors="clr-namespace:OneWare.Essentials.Behaviors;assembly=OneWare.Essentials"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" PrefHeight="350" PrefWidth="400"
         CustomIcon="avares://OneWare.Quartus/Assets/Quartus_prime.png"
         Icon="avares://OneWare.Quartus/Assets/Quartus_prime.png"
         x:Class="OneWare.Quartus.Views.QuartusCompileSettingsView" Name="QuartusCompileSettingsViewView"
         WindowStartupLocation="CenterOwner" Title="Quartus Compile Settings" x:DataType="viewModels:QuartusCompileSettingsViewModel">
     <Interaction.Behaviors>
-        <behaviours:CommandOnEnterBehaviour Command="{Binding Save}"
-                                            CommandParameter="{Binding #QuartusCompileSettingsViewView}" />
+        <behaviors:CommandOnEnterBehavior Command="{Binding Save}"
+                                          CommandParameter="{Binding #QuartusCompileSettingsViewView}" />
     </Interaction.Behaviors>
     <DockPanel>
         <StackPanel DockPanel.Dock="Bottom" Margin="8" Classes="WindowButtons" HorizontalAlignment="Right"

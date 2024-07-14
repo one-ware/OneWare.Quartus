@@ -3,7 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:OneWare.Essentials.Controls;assembly=OneWare.Essentials"
-        xmlns:behaviours="clr-namespace:OneWare.Essentials.Behaviours;assembly=OneWare.Essentials"
+        xmlns:behaviours="clr-namespace:OneWare.Essentials.Behaviors;assembly=OneWare.Essentials"
         xmlns:viewModels="clr-namespace:OneWare.Quartus.ViewModels"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" PrefHeight="370" PrefWidth="400"
         CustomIcon="{DynamicResource Material.SettingsOutline}"
@@ -11,8 +11,8 @@
         x:Class="OneWare.Quartus.Views.QuartusLoaderSettingsView" Name="QuartusLoaderSettingsViewView"
         WindowStartupLocation="CenterOwner" Title="Quartus Loader Settings" x:DataType="viewModels:QuartusLoaderSettingsViewModel">
     <Interaction.Behaviors>
-        <behaviours:CommandOnEnterBehaviour Command="{Binding Save}"
-                                            CommandParameter="{Binding #QuartusLoaderSettingsViewView}" />
+        <behaviours:CommandOnEnterBehavior Command="{Binding Save}"
+                                           CommandParameter="{Binding #QuartusLoaderSettingsViewView}" />
     </Interaction.Behaviors>
     <DockPanel>
         <StackPanel DockPanel.Dock="Bottom" Margin="8" Classes="WindowButtons" HorizontalAlignment="Right"

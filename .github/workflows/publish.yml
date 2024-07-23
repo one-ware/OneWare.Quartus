@@ -30,12 +30,12 @@ jobs:
         uses: thedoctor0/zip-release@0.7.1
         with:
           type: 'zip'
-          filename: ../OneWare_Quartus_${{steps.get-version.outputs.version}}_all.zip
+          filename: ../OneWare.Quartus_${{steps.get-version.outputs.version}}_all.zip
           directory: ./publish
       - name: Debug
         run: ls
       - uses: ncipollo/release-action@v1.14.0
         with:
-          artifacts: "OneWare_Quartus_${{steps.get-version.outputs.version}}_all.zip"
+          artifacts: "OneWare.Quartus_${{steps.get-version.outputs.version}}_all.zip"
           tag: ${{steps.get-version.outputs.version}}
           allowUpdates: true

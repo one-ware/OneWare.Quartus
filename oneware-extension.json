@@ -145,7 +145,7 @@
       "targets": [
         {
           "target": "all",
-          "url": "https://github.com/one-ware/OneWare.Quartus/releases/download/0.7.3/OneWare_Quartus_0.7.3_all.zip"
+          "url": "https://github.com/one-ware/OneWare.Quartus/releases/download/0.7.3/OneWare.Quartus_0.7.3_all.zip"
         }
       ]
     }

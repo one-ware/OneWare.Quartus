@@ -3,7 +3,7 @@
     {
       "Name": "OneWare.Essentials",
       "MinVersion": "0.6.0.0",
-      "MaxVersion": "0.5.1.0"
+      "MaxVersion": "0.6.0.0"
     },
     {
       "Name": "OneWare.UniversalFpgaProjectSystem",

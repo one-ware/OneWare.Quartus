@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using OneWare.Essentials.Behaviors;
 using OneWare.Essentials.Enums;
 using OneWare.Essentials.Services;
+using OneWare.Quartus.Helper;
 using OneWare.UniversalFpgaProjectSystem.Models;
 using OneWare.UniversalFpgaProjectSystem.Parser;
 using OneWare.UniversalFpgaProjectSystem.Services;
@@ -45,9 +46,21 @@ public class QuartusLoader(IChildProcessService childProcessService, ISettingsSe
             ? "1"
             : "\"" + cableSetting + "\"";
 
+        var qsfPath = QsfHelper.GetQsfPath(project);
+        var qsf = QsfHelper.ReadQsf(qsfPath);
+
+        var outputDirRelative = qsf.GetGlobalAssignment("PROJECT_OUTPUT_DIRECTORY");
+        
+        var outputDir = project.FullPath;
+
+        if (outputDirRelative != null)
+        {
+            outputDir = Path.Combine(outputDir, outputDirRelative);
+        }
+        
         if (!longTerm)
         {
-            var sofFile = Path.GetFileName(FirstFileInPath(project.FullPath, ".sof") ?? "");
+            var sofFile = Path.GetFileName(FirstFileInPath(outputDir,".sof"));
 
             if (string.IsNullOrEmpty(sofFile))
             {
@@ -64,7 +77,7 @@ public class QuartusLoader(IChildProcessService childProcessService, ISettingsSe
             pgmArgs.AddRange(["-o", $"{shortTermOperation};{sofFile}"]);
 
             await childProcessService.ExecuteShellAsync("quartus_pgm", pgmArgs,
-                project.FullPath, "Running Quartus programmer (Short-Term)...", AppState.Loading, true);
+                outputDir, "Running Quartus programmer (Short-Term)...", AppState.Loading, true);
         }
         else
         {
@@ -74,7 +87,7 @@ public class QuartusLoader(IChildProcessService childProcessService, ISettingsSe
 
             if (longTermFormat.Equals("pof", StringComparison.OrdinalIgnoreCase))
             {
-                var pofFile = Path.GetFileName(FirstFileInPath(project.FullPath, ".pof") ?? "");
+                var pofFile = Path.GetFileName(FirstFileInPath(outputDir, ".pof") ?? "");
 
                 if (string.IsNullOrEmpty(pofFile))
                 {
@@ -87,7 +100,7 @@ public class QuartusLoader(IChildProcessService childProcessService, ISettingsSe
             else
             {
                 //Use CPF to convert SOF in given format
-                var sofFile = Path.GetFileName(FirstFileInPath(project.FullPath, ".sof") ?? "");
+                var sofFile = Path.GetFileName(FirstFileInPath(outputDir, ".sof") ?? "");
 
                 if (string.IsNullOrEmpty(sofFile))
                 {
@@ -109,7 +122,7 @@ public class QuartusLoader(IChildProcessService childProcessService, ISettingsSe
                 cpfArgs.AddRange(["-c", sofFile, convertedFilePath]);
 
                 var result = await childProcessService.ExecuteShellAsync("quartus_cpf", cpfArgs,
-                    project.FullPath, $"Converting .sof to .{longTermFormat.ToLower()}...");
+                    outputDir, $"Converting .sof to .{longTermFormat.ToLower()}...");
 
                 if (!result.success) return;
 
@@ -125,7 +138,7 @@ public class QuartusLoader(IChildProcessService childProcessService, ISettingsSe
             pgmArgs.AddRange(["-o", $"{longTermOperation};{programFile}"]);
 
             await childProcessService.ExecuteShellAsync("quartus_pgm", pgmArgs,
-                project.FullPath, "Running Quartus programmer (Long-Term)...", AppState.Loading, true);
+                outputDir, "Running Quartus programmer (Long-Term)...", AppState.Loading, true);
         }
     }
 }

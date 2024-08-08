@@ -41,51 +41,51 @@ public class QuartusLoaderSettingsViewModel : FlexibleWindowViewModelBase
         _settings = FpgaSettingsParser.LoadSettings(projectRoot, fpga.Name);
         
         _shortTermModeSetting = new ComboBoxSetting("Short Term Mode", "Mode to use for Short Term Programming",
-            defaultProperties.GetValueOrDefault("QuartusProgrammer_ShortTerm_Mode") ?? "", ["JTAG", "AS", "PS", "SD"]);
+            defaultProperties.GetValueOrDefault("quartusProgrammerShortTermMode") ?? "", ["JTAG", "AS", "PS", "SD"]);
         
         _shortTermOperationSetting = new TitledSetting("Short Term Operation", "Operation to use for Short Term Programming",
-            defaultProperties.GetValueOrDefault("QuartusProgrammer_ShortTerm_Operation") ?? "");
+            defaultProperties.GetValueOrDefault("quartusProgrammerShortTermOperation") ?? "");
         
         _shortTermArgumentsSetting = new TitledSetting("Short Term Additional Arguments", "Additional Arguments to use for Short Term Programming",
-            defaultProperties.GetValueOrDefault("QuartusProgrammer_ShortTerm_Arguments") ?? "");
+            defaultProperties.GetValueOrDefault("quartusProgrammerShortTermArguments") ?? "");
         
         _longTermModeSetting = new ComboBoxSetting("Long Term Mode", "Mode to use for Long Term Programming",
-            defaultProperties.GetValueOrDefault("QuartusProgrammer_LongTerm_Mode") ?? "", ["JTAG", "AS", "PS", "SD"]);
+            defaultProperties.GetValueOrDefault("quartusProgrammerLongTermMode") ?? "", ["JTAG", "AS", "PS", "SD"]);
             
         _longTermOperationSetting = new TitledSetting("Long Term Operation", "Operation to use for Long Term Programming",
-            defaultProperties.GetValueOrDefault("QuartusProgrammer_LongTerm_Operation") ?? "");
+            defaultProperties.GetValueOrDefault("quartusProgrammerLongTermOperation") ?? "");
         
         _longTermFormatSetting = new ComboBoxSetting("Long Term Format", "Programming Format to use",
-            defaultProperties.GetValueOrDefault("QuartusProgrammer_LongTerm_Format") ?? "", ["POF", "JIC"]);
+            defaultProperties.GetValueOrDefault("quartusProgrammerLongTermFormat") ?? "", ["POF", "JIC"]);
         
         _longTermCpfArgumentsSetting = new TitledSetting("Long Term Cpf Arguments", "If format is different from POF, these arguments will be used to convert .sof to given format",
-            defaultProperties.GetValueOrDefault("QuartusProgrammer_LongTerm_CpfArguments") ?? "");
+            defaultProperties.GetValueOrDefault("quartusProgrammerLongTermCpfArguments") ?? "");
         
         _longTermArgumentsSetting = new TitledSetting("Long Term Additional Arguments", "Additional Arguments to use for Long Term Programming",
-            defaultProperties.GetValueOrDefault("QuartusProgrammer_LongTerm_Arguments") ?? "");
+            defaultProperties.GetValueOrDefault("quartusProgrammerLongTermArguments") ?? "");
         
-        if (_settings.TryGetValue("QuartusProgrammer_ShortTerm_Mode", out var qPstMode))
+        if (_settings.TryGetValue("quartusProgrammerShortTermMode", out var qPstMode))
             _shortTermModeSetting.Value = qPstMode;
         
-        if (_settings.TryGetValue("QuartusProgrammer_ShortTerm_Operation", out var qPstOperation))
+        if (_settings.TryGetValue("quartusProgrammerShortTermOperation", out var qPstOperation))
             _shortTermOperationSetting.Value = qPstOperation;
         
-        if (_settings.TryGetValue("QuartusProgrammer_ShortTerm_Arguments", out var qPstArguments))
+        if (_settings.TryGetValue("quartusProgrammerShortTermArguments", out var qPstArguments))
             _shortTermArgumentsSetting.Value = qPstArguments;
         
-        if (_settings.TryGetValue("QuartusProgrammer_LongTerm_Mode", out var qPltMode))
+        if (_settings.TryGetValue("quartusProgrammerLongTermMode", out var qPltMode))
             _longTermModeSetting.Value = qPltMode;
         
-        if (_settings.TryGetValue("QuartusProgrammer_LongTerm_Operation", out var qPltOperation))
+        if (_settings.TryGetValue("quartusProgrammerLongTermOperation", out var qPltOperation))
             _longTermOperationSetting.Value = qPltOperation;
         
-        if (_settings.TryGetValue("QuartusProgrammer_LongTerm_Format", out var qPltFormat))
+        if (_settings.TryGetValue("quartusProgrammerLongTermFormat", out var qPltFormat))
             _longTermFormatSetting.Value = qPltFormat;
         
-        if (_settings.TryGetValue("QuartusProgrammer_LongTerm_CpfArguments", out var qPltCpfArguments))
+        if (_settings.TryGetValue("quartusProgrammerLongTermCpfArguments", out var qPltCpfArguments))
             _longTermCpfArgumentsSetting.Value = qPltCpfArguments;
         
-        if (_settings.TryGetValue("QuartusProgrammer_LongTerm_Arguments", out var qPltArguments))
+        if (_settings.TryGetValue("quartusProgrammerLongTermArguments", out var qPltArguments))
             _longTermArgumentsSetting.Value = qPltArguments;
         
         SettingsCollection.SettingModels.Add(new ComboBoxSettingViewModel(_shortTermModeSetting));
@@ -100,14 +100,14 @@ public class QuartusLoaderSettingsViewModel : FlexibleWindowViewModelBase
     
     public void Save(FlexibleWindow flexibleWindow)
     {
-        _settings["QuartusProgrammer_ShortTerm_Mode"] = _shortTermModeSetting.Value.ToString()!;
-        _settings["QuartusProgrammer_ShortTerm_Operation"] = _shortTermOperationSetting.Value.ToString()!;
-        _settings["QuartusProgrammer_ShortTerm_Arguments"] = _shortTermArgumentsSetting.Value.ToString()!;
-        _settings["QuartusProgrammer_LongTerm_Mode"] = _longTermModeSetting.Value.ToString()!;
-        _settings["QuartusProgrammer_LongTerm_Operation"] = _longTermOperationSetting.Value.ToString()!;
-        _settings["QuartusProgrammer_LongTerm_Format"] = _longTermFormatSetting.Value.ToString()!;
-        _settings["QuartusProgrammer_LongTerm_CpfArguments"] = _longTermCpfArgumentsSetting.Value.ToString()!;
-        _settings["QuartusProgrammer_LongTerm_Arguments"] = _longTermArgumentsSetting.Value.ToString()!;
+        _settings["quartusProgrammerShortTermMode"] = _shortTermModeSetting.Value.ToString()!;
+        _settings["quartusProgrammerShortTermOperation"] = _shortTermOperationSetting.Value.ToString()!;
+        _settings["quartusProgrammerShortTermArguments"] = _shortTermArgumentsSetting.Value.ToString()!;
+        _settings["quartusProgrammerLongTermMode"] = _longTermModeSetting.Value.ToString()!;
+        _settings["quartusProgrammerLongTermOperation"] = _longTermOperationSetting.Value.ToString()!;
+        _settings["quartusProgrammerLongTermFormat"] = _longTermFormatSetting.Value.ToString()!;
+        _settings["quartusProgrammerLongTermCpfArguments"] = _longTermCpfArgumentsSetting.Value.ToString()!;
+        _settings["quartusProgrammerLongTermArguments"] = _longTermArgumentsSetting.Value.ToString()!;
 
         FpgaSettingsParser.SaveSettings(_projectRoot, _fpga.Name, _settings);
         

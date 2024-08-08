@@ -48,9 +48,9 @@ public class QuartusToolchain(QuartusService quartusService, ILogger logger) : I
 
             //Add Connections
             qsf.RemoveLocationAssignments();
-            foreach (var (_, pinModel) in fpga.PinModels.Where(x => x.Value.Connection != null))
+            foreach (var (_, pinModel) in fpga.PinModels.Where(x => x.Value.ConnectedNode != null))
             {
-                qsf.AddLocationAssignment(pinModel.Pin.Name, pinModel.Connection!.Node.Name);
+                qsf.AddLocationAssignment(pinModel.Pin.Name, pinModel.ConnectedNode!.Node.Name);
             }
                 
             QsfHelper.WriteQsf(qsfPath, qsf);
@@ -73,8 +73,8 @@ public class QuartusToolchain(QuartusService quartusService, ILogger logger) : I
             var qsfPath = QsfHelper.GetQsfPath(project);
             var qsf = QsfHelper.ReadQsf(qsfPath);
 
-            var family = properties.GetValueOrDefault("QuartusToolchain_Family") ?? throw new Exception("No Family set!");
-            var device = properties.GetValueOrDefault("QuartusToolchain_Device") ?? throw new Exception("No Device set!");
+            var family = properties.GetValueOrDefault("quartusToolchainFamily") ?? throw new Exception("No Family set!");
+            var device = properties.GetValueOrDefault("quartusToolchainDevice") ?? throw new Exception("No Device set!");
             
             //Add output path
             qsf.SetGlobalAssignment("PROJECT_OUTPUT_DIRECTORY", "output_files");

@@ -68,9 +68,9 @@ public class QuartusLoader(IChildProcessService childProcessService, ISettingsSe
                 return;
             }
 
-            var shortTermMode = properties.GetValueOrDefault("QuartusProgrammer_ShortTerm_Mode") ?? "JTAG";
-            var shortTermOperation = properties.GetValueOrDefault("QuartusProgrammer_ShortTerm_Operation") ?? "P";
-            var shortTermArgs = properties.GetValueOrDefault("QuartusProgrammer_ShortTerm_Arguments")?.Split(' ') ?? [];
+            var shortTermMode = properties.GetValueOrDefault("quartusProgrammerShortTermMode") ?? "JTAG";
+            var shortTermOperation = properties.GetValueOrDefault("quartusProgrammerShortTermOperation") ?? "P";
+            var shortTermArgs = properties.GetValueOrDefault("quartusProgrammerShortTermArguments")?.Split(' ') ?? [];
 
             List<string> pgmArgs = ["-c", cableName, "-m", shortTermMode];
             pgmArgs.AddRange(shortTermArgs);
@@ -81,7 +81,7 @@ public class QuartusLoader(IChildProcessService childProcessService, ISettingsSe
         }
         else
         {
-            var longTermFormat = properties.GetValueOrDefault("QuartusProgrammer_LongTerm_Format") ?? "POF";
+            var longTermFormat = properties.GetValueOrDefault("quartusProgrammerLongTermFormat") ?? "POF";
 
             string programFile;
 
@@ -108,7 +108,7 @@ public class QuartusLoader(IChildProcessService childProcessService, ISettingsSe
                     return;
                 }
 
-                var configurationMode = properties.GetValueOrDefault("QuartusProgrammer_LongTerm_CpfArguments");
+                var configurationMode = properties.GetValueOrDefault("quartusProgrammerLongTermCpfArguments");
 
                 if (configurationMode == null)
                 {
@@ -129,9 +129,9 @@ public class QuartusLoader(IChildProcessService childProcessService, ISettingsSe
                 programFile = convertedFilePath;
             }
 
-            var longTermMode = properties.GetValueOrDefault("QuartusProgrammer_LongTerm_Mode") ?? "JTAG";
-            var longTermOperation = properties.GetValueOrDefault("QuartusProgrammer_LongTerm_Operation") ?? "P";
-            var longTermArgs = properties.GetValueOrDefault("QuartusProgrammer_LongTerm_Arguments")?.Split(' ') ?? [];
+            var longTermMode = properties.GetValueOrDefault("quartusProgrammerLongTermMode") ?? "JTAG";
+            var longTermOperation = properties.GetValueOrDefault("quartusProgrammerLongTermOperation") ?? "P";
+            var longTermArgs = properties.GetValueOrDefault("quartusProgrammerLongTermArguments")?.Split(' ') ?? [];
             
             List<string> pgmArgs = ["-c", cableName, "-m", longTermMode];
             pgmArgs.AddRange(longTermArgs);

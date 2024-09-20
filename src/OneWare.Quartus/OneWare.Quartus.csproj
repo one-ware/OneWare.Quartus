@@ -16,8 +16,8 @@
     </ItemGroup>
     
     <ItemGroup>
-        <PackageReference Include="OneWare.Essentials" Version="0.7.0" Private="false" ExcludeAssets="runtime;Native"/>
-        <PackageReference Include="OneWare.UniversalFpgaProjectSystem" Version="0.30.0.0" Private="false" ExcludeAssets="runtime;Native"/>
+        <PackageReference Include="OneWare.Essentials" Version="0.9.0" Private="false" ExcludeAssets="runtime;Native"/>
+        <PackageReference Include="OneWare.UniversalFpgaProjectSystem" Version="0.30.3" Private="false" ExcludeAssets="runtime;Native" />
     </ItemGroup>
     
 </Project>

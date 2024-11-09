@@ -22,31 +22,13 @@
       "url": "https://github.com/one-ware/OneWare.Quartus"
     }
   ],
+  "sourceUrl": "https://github.com/one-ware/OneWare.Quartus/releases/download",
   "versions": [
     {
-      "version": "0.7.3",
+      "version": "0.8.4",
       "targets": [
         {
-          "target": "all",
-          "url": "https://github.com/one-ware/OneWare.Quartus/releases/download/0.7.3/OneWare.Quartus_0.7.3_all.zip"
-        }
-      ]
-    },
-    {
-      "version": "0.8.0",
-      "targets": [
-        {
-          "target": "all",
-          "url": "https://github.com/one-ware/OneWare.Quartus/releases/download/0.8.0/OneWare.Quartus_0.8.0_all.zip"
-        }
-      ]
-    },
-    {
-      "version": "0.8.3",
-      "targets": [
-        {
-          "target": "all",
-          "url": "https://github.com/one-ware/OneWare.Quartus/releases/download/0.8.3/OneWare.Quartus_0.8.3_all.zip"
+          "target": "all"
         }
       ]
     }

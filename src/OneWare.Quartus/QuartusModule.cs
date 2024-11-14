@@ -53,7 +53,7 @@ public class QuartusModule : IModule
                 "quartus")
         };
         
-        settingsService.RegisterTitledPath("Tools", "Quartus", "Quartus_Path", "Quartus Path",
+        settingsService.RegisterTitledFolderPath("Tools", "Quartus", "Quartus_Path", "Quartus Path",
             "Sets the path for Quartus", defaultQuartusPath, null, null, IsQuartusPathValid);
 
         settingsService.GetSettingObservable<string>("Quartus_Path").Subscribe(x =>

@@ -17,7 +17,10 @@ public class QsfSettingComboBox : IQsfSetting
         _name = name;
         _options = options;
         
-        _setting = new ComboBoxSetting(title, description, defaultValue, options.Values);
+        _setting = new ComboBoxSetting(title, defaultValue, options.Values)
+        {
+            HoverDescription = description
+        };
         
         var setting = file.GetGlobalAssignment(name);
         
@@ -28,9 +31,9 @@ public class QsfSettingComboBox : IQsfSetting
         }
     }
 
-    public SettingViewModel GetViewModel()
+    public TitledSetting GetSettingModel()
     {
-        return new ComboBoxSettingViewModel(_setting);
+        return _setting;
     }
 
     public void Save()

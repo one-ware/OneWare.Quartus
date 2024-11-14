@@ -53,7 +53,7 @@ public class QuartusCompileSettingsViewModel : FlexibleWindowViewModelBase
 
         foreach (var setting in _settings)
         {
-            SettingsCollection.SettingModels.Add(setting.GetViewModel());
+            SettingsCollection.SettingModels.Add(setting.GetSettingModel());
         }
     }
     

@@ -41,28 +41,28 @@ public class QuartusLoaderSettingsViewModel : FlexibleWindowViewModelBase
         var defaultProperties = fpga.Properties;
         _settings = FpgaSettingsParser.LoadSettings(projectRoot, fpga.Name);
         
-        _shortTermModeSetting = new ComboBoxSetting("Short Term Mode", "Mode to use for Short Term Programming",
+        _shortTermModeSetting = new ComboBoxSetting("Short Term Mode",
             defaultProperties.GetValueOrDefault("quartusProgrammerShortTermMode") ?? "", ["JTAG", "AS", "PS", "SD"]);
         
-        _shortTermOperationSetting = new TitledSetting("Short Term Operation", "Operation to use for Short Term Programming",
+        _shortTermOperationSetting = new TextBoxSetting("Short Term Operation", "Operation to use for Short Term Programming",
             defaultProperties.GetValueOrDefault("quartusProgrammerShortTermOperation") ?? "");
         
-        _shortTermArgumentsSetting = new TitledSetting("Short Term Additional Arguments", "Additional Arguments to use for Short Term Programming",
+        _shortTermArgumentsSetting = new TextBoxSetting("Short Term Additional Arguments", "Additional Arguments to use for Short Term Programming",
             defaultProperties.GetValueOrDefault("quartusProgrammerShortTermArguments") ?? "");
         
-        _longTermModeSetting = new ComboBoxSetting("Long Term Mode", "Mode to use for Long Term Programming",
+        _longTermModeSetting = new ComboBoxSetting("Long Term Mode",
             defaultProperties.GetValueOrDefault("quartusProgrammerLongTermMode") ?? "", ["JTAG", "AS", "PS", "SD"]);
             
-        _longTermOperationSetting = new TitledSetting("Long Term Operation", "Operation to use for Long Term Programming",
+        _longTermOperationSetting = new TextBoxSetting("Long Term Operation", "Operation to use for Long Term Programming",
             defaultProperties.GetValueOrDefault("quartusProgrammerLongTermOperation") ?? "");
         
-        _longTermFormatSetting = new ComboBoxSetting("Long Term Format", "Programming Format to use",
+        _longTermFormatSetting = new ComboBoxSetting("Long Term Format",
             defaultProperties.GetValueOrDefault("quartusProgrammerLongTermFormat") ?? "", ["POF", "JIC"]);
         
-        _longTermCpfArgumentsSetting = new TitledSetting("Long Term Cpf Arguments", "If format is different from POF, these arguments will be used to convert .sof to given format",
+        _longTermCpfArgumentsSetting = new TextBoxSetting("Long Term Cpf Arguments", "If format is different from POF, these arguments will be used to convert .sof to given format",
             defaultProperties.GetValueOrDefault("quartusProgrammerLongTermCpfArguments") ?? "");
         
-        _longTermArgumentsSetting = new TitledSetting("Long Term Additional Arguments", "Additional Arguments to use for Long Term Programming",
+        _longTermArgumentsSetting = new TextBoxSetting("Long Term Additional Arguments", "Additional Arguments to use for Long Term Programming",
             defaultProperties.GetValueOrDefault("quartusProgrammerLongTermArguments") ?? "");
         
         if (_settings.TryGetValue("quartusProgrammerShortTermMode", out var qPstMode))
@@ -89,14 +89,14 @@ public class QuartusLoaderSettingsViewModel : FlexibleWindowViewModelBase
         if (_settings.TryGetValue("quartusProgrammerLongTermArguments", out var qPltArguments))
             _longTermArgumentsSetting.Value = qPltArguments;
         
-        SettingsCollection.SettingModels.Add(new ComboBoxSettingViewModel(_shortTermModeSetting));
-        SettingsCollection.SettingModels.Add(new TextBoxSettingViewModel(_shortTermOperationSetting));
-        SettingsCollection.SettingModels.Add(new TextBoxSettingViewModel(_shortTermArgumentsSetting));
-        SettingsCollection.SettingModels.Add(new ComboBoxSettingViewModel(_longTermModeSetting));
-        SettingsCollection.SettingModels.Add(new TextBoxSettingViewModel(_longTermOperationSetting));
-        SettingsCollection.SettingModels.Add(new ComboBoxSettingViewModel(_longTermFormatSetting));
-        SettingsCollection.SettingModels.Add(new TextBoxSettingViewModel(_longTermCpfArgumentsSetting));
-        SettingsCollection.SettingModels.Add(new TextBoxSettingViewModel(_longTermArgumentsSetting));
+        SettingsCollection.SettingModels.Add(_shortTermModeSetting);
+        SettingsCollection.SettingModels.Add(_shortTermOperationSetting);
+        SettingsCollection.SettingModels.Add(_shortTermArgumentsSetting);
+        SettingsCollection.SettingModels.Add(_longTermModeSetting);
+        SettingsCollection.SettingModels.Add(_longTermOperationSetting);
+        SettingsCollection.SettingModels.Add(_longTermFormatSetting);
+        SettingsCollection.SettingModels.Add(_longTermCpfArgumentsSetting);
+        SettingsCollection.SettingModels.Add(_longTermArgumentsSetting);
     }
     
     public void Save(FlexibleWindow flexibleWindow)
@@ -119,7 +119,7 @@ public class QuartusLoaderSettingsViewModel : FlexibleWindowViewModelBase
     {
         foreach (var setting in SettingsCollection.SettingModels)
         {
-            setting.Setting.Value = setting.Setting.DefaultValue;
+            setting.Value = setting.DefaultValue;
         }
     }
 }

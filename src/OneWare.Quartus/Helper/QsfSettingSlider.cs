@@ -16,7 +16,10 @@ public class QsfSettingSlider : IQsfSetting
         _qsfFile = file;
         _name = name;
         
-        _setting = new SliderSetting(title, description, defaultValue, min, max, step);
+        _setting = new SliderSetting(title, defaultValue, min, max, step)
+        {
+            HoverDescription = description
+        };
         
         var setting = file.GetGlobalAssignment(name);
         
@@ -26,9 +29,9 @@ public class QsfSettingSlider : IQsfSetting
         }
     }
 
-    public SettingViewModel GetViewModel()
+    public TitledSetting GetSettingModel()
     {
-        return new SliderSettingViewModel(_setting);
+        return _setting;
     }
 
     public void Save()

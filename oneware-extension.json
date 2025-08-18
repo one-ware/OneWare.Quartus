@@ -53,7 +53,16 @@
     },
     {
       "version": "0.8.7",
-      "minStudioVersion": "0.21.3.0",
+      "minStudioVersion": "0.21.8.0",
+      "targets": [
+        {
+          "target": "all"
+        }
+      ]
+    },
+    {
+      "version": "0.8.8",
+      "minStudioVersion": "0.21.8.0",
       "targets": [
         {
           "target": "all"

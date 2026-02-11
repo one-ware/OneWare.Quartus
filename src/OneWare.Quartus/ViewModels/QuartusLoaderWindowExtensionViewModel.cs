@@ -27,7 +27,7 @@ public class QuartusLoaderWindowExtensionViewModel : ObservableObject
         
         _fpga = fpgaService.FpgaPackages.FirstOrDefault(x => x.Name == projectRoot.Properties.GetString("fpga"))?.LoadFpga();
 
-        IsVisible = projectRoot.Loader is QuartusLoader;
+        IsVisible = projectRoot.Loader is QuartusLoader.LoaderId;
         IsEnabled = _fpga != null;
     }
 

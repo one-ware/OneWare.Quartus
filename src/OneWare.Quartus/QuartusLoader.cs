@@ -11,7 +11,9 @@ namespace OneWare.Quartus;
 public class QuartusLoader(IChildProcessService childProcessService, ISettingsService settingsService, ILogger logger)
     : IFpgaLoader
 {
-    public string Id => "quartus";
+    public const string LoaderId = "quartus";
+    
+    public string Id => LoaderId;
     
     public string Name => "Quartus";
 

@@ -41,26 +41,31 @@ public class QuartusLoaderSettingsViewModel : FlexibleWindowViewModelBase
         _shortTermModeSetting = new ComboBoxSetting("Short Term Mode",
             defaultProperties.GetValueOrDefault("quartusProgrammerShortTermMode") ?? "", ["JTAG", "AS", "PS", "SD"]);
         
-        _shortTermOperationSetting = new TextBoxSetting("Short Term Operation", "Operation to use for Short Term Programming",
-            defaultProperties.GetValueOrDefault("quartusProgrammerShortTermOperation") ?? "");
+        _shortTermOperationSetting = new TextBoxSetting("Short Term Operation",
+            defaultProperties.GetValueOrDefault("quartusProgrammerShortTermOperation") ?? "",
+            "Operation to use for Short Term Programming");
         
-        _shortTermArgumentsSetting = new TextBoxSetting("Short Term Additional Arguments", "Additional Arguments to use for Short Term Programming",
-            defaultProperties.GetValueOrDefault("quartusProgrammerShortTermArguments") ?? "");
+        _shortTermArgumentsSetting = new TextBoxSetting("Short Term Additional Arguments",
+            defaultProperties.GetValueOrDefault("quartusProgrammerShortTermArguments") ?? "",
+            "Additional Arguments to use for Short Term Programming");
         
         _longTermModeSetting = new ComboBoxSetting("Long Term Mode",
             defaultProperties.GetValueOrDefault("quartusProgrammerLongTermMode") ?? "", ["JTAG", "AS", "PS", "SD"]);
             
-        _longTermOperationSetting = new TextBoxSetting("Long Term Operation", "Operation to use for Long Term Programming",
-            defaultProperties.GetValueOrDefault("quartusProgrammerLongTermOperation") ?? "");
+        _longTermOperationSetting = new TextBoxSetting("Long Term Operation",
+            defaultProperties.GetValueOrDefault("quartusProgrammerLongTermOperation") ?? "",
+            "Operation to use for Long Term Programming");
         
         _longTermFormatSetting = new ComboBoxSetting("Long Term Format",
             defaultProperties.GetValueOrDefault("quartusProgrammerLongTermFormat") ?? "", ["POF", "JIC"]);
         
-        _longTermCpfArgumentsSetting = new TextBoxSetting("Long Term Cpf Arguments", "If format is different from POF, these arguments will be used to convert .sof to given format",
-            defaultProperties.GetValueOrDefault("quartusProgrammerLongTermCpfArguments") ?? "");
+        _longTermCpfArgumentsSetting = new TextBoxSetting("Long Term Cpf Arguments",
+            defaultProperties.GetValueOrDefault("quartusProgrammerLongTermCpfArguments") ?? "",
+            "If format is different from POF, these arguments will be used to convert .sof to given format");
         
-        _longTermArgumentsSetting = new TextBoxSetting("Long Term Additional Arguments", "Additional Arguments to use for Long Term Programming",
-            defaultProperties.GetValueOrDefault("quartusProgrammerLongTermArguments") ?? "");
+        _longTermArgumentsSetting = new TextBoxSetting("Long Term Additional Arguments",
+            defaultProperties.GetValueOrDefault("quartusProgrammerLongTermArguments") ?? "",
+            "Additional Arguments to use for Long Term Programming");
         
         if (_settings.TryGetValue("quartusProgrammerShortTermMode", out var qPstMode))
             _shortTermModeSetting.Value = qPstMode;

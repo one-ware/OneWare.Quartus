@@ -10,7 +10,9 @@ namespace OneWare.Quartus;
 
 public class QuartusToolchain(QuartusService quartusService, ILogger logger) : IFpgaToolchain
 {
-    public string Id => "quartus";
+    public const string ToolchainId = "quartus";
+    
+    public string Id => ToolchainId;
 
     public string Name => "Quartus";
 
@@ -68,8 +70,8 @@ public class QuartusToolchain(QuartusService quartusService, ILogger logger) : I
         try
         {
             if(project.TopEntity == null) throw new Exception("No TopEntity set!");
-            
-            var topEntity = Path.Combine(project.RootFolderPath, project.TopEntity);
+
+            var topEntity = Path.GetFileNameWithoutExtension(project.TopEntity);
             
             var properties = FpgaSettingsParser.LoadSettings(project, fpga.Fpga.Name);
 

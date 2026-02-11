@@ -1,7 +1,5 @@
 # OneWare.Quartus
 
-Template for creating Extensions for OneWare Studio
-
 ![image](https://raw.githubusercontent.com/one-ware/OneWare.Quartus/main/Icon.png)
 
 [![Test](https://github.com/one-ware/OneWare.Quartus/actions/workflows/test.yml/badge.svg)](https://github.com/one-ware/OneWare.Quartus/actions/workflows/test.yml)

@@ -13,13 +13,11 @@ public class QuartusCompileWindowExtensionViewModel : ObservableObject
 {
     private readonly IWindowService _windowService;
     private readonly IProjectExplorerService _projectExplorerService;
-    
-    private bool _isVisible = false;
-    
+
     public bool IsVisible
     {
-        get => _isVisible;
-        set => SetProperty(ref _isVisible, value);
+        get;
+        set => SetProperty(ref field, value);
     }
 
     public QuartusCompileWindowExtensionViewModel(IProjectExplorerService projectExplorerService, IWindowService windowService)
@@ -34,7 +32,7 @@ public class QuartusCompileWindowExtensionViewModel : ObservableObject
             if (x is not UniversalFpgaProjectRoot fpgaProjectRoot) return;
             disposable = fpgaProjectRoot.WhenValueChanged(y => y.Toolchain).Subscribe(z =>
             {
-                IsVisible = z is QuartusToolchain;
+                IsVisible = z is QuartusToolchain.ToolchainId;
             });
         });
     }

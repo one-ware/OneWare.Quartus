@@ -1,47 +1,42 @@
-using System.Reactive.Linq;
-using System.Runtime.InteropServices;
-using CommunityToolkit.Mvvm.Input;
-using Microsoft.CodeAnalysis;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using OneWare.Essentials.Helpers;
 using OneWare.Essentials.Models;
 using OneWare.Essentials.Services;
-using OneWare.Essentials.ViewModels;
 using OneWare.Quartus.Services;
 using OneWare.Quartus.ViewModels;
 using OneWare.Quartus.Views;
 using OneWare.UniversalFpgaProjectSystem.Models;
 using OneWare.UniversalFpgaProjectSystem.Services;
-using Prism.Ioc;
-using Prism.Modularity;
 
 namespace OneWare.Quartus;
 
-public class QuartusModule : IModule
+public class QuartusModule : OneWareModuleBase
 {
-    public void RegisterTypes(IContainerRegistry containerRegistry)
+    public override void RegisterServices(IServiceCollection services)
     {
-        containerRegistry.RegisterSingleton<QuartusService>();
+        services.AddSingleton<QuartusService>();
     }
 
-    public void OnInitialized(IContainerProvider containerProvider)
+    public override void Initialize(IServiceProvider serviceProvider)
     {
-        var settingsService = containerProvider.Resolve<ISettingsService>();
-        var quartusService = containerProvider.Resolve<QuartusService>();
+        var settingsService = serviceProvider.Resolve<ISettingsService>();
+        var quartusService = serviceProvider.Resolve<QuartusService>();
 
-        containerProvider.Resolve<IWindowService>().RegisterUiExtension("CompileWindow_TopRightExtension", new UiExtension(x => new QuartusCompileWindowExtensionView()
+        serviceProvider.Resolve<IWindowService>().RegisterUiExtension("CompileWindow_TopRightExtension", new OneWareUiExtension(x => new QuartusCompileWindowExtensionView()
         {
-            DataContext = containerProvider.Resolve<QuartusCompileWindowExtensionViewModel>()
+            DataContext = serviceProvider.Resolve<QuartusCompileWindowExtensionViewModel>()
         }));
-        containerProvider.Resolve<IWindowService>().RegisterUiExtension("UniversalFpgaToolBar_DownloaderConfigurationExtension", new UiExtension(x =>
+        serviceProvider.Resolve<IWindowService>().RegisterUiExtension("UniversalFpgaToolBar_DownloaderConfigurationExtension", new OneWareUiExtension(x =>
         {
             if (x is not UniversalFpgaProjectRoot cm) return null;
             return new QuartusLoaderWindowExtensionView()
             {
-                DataContext = containerProvider.Resolve<QuartusLoaderWindowExtensionViewModel>((typeof(UniversalFpgaProjectRoot), cm))
+                DataContext = serviceProvider.Resolve<QuartusLoaderWindowExtensionViewModel>((typeof(UniversalFpgaProjectRoot), cm))
             };
         }));
-        containerProvider.Resolve<FpgaService>().RegisterToolchain<QuartusToolchain>();
-        containerProvider.Resolve<FpgaService>().RegisterLoader<QuartusLoader>();
+        serviceProvider.Resolve<FpgaService>().RegisterToolchain<QuartusToolchain>();
+        serviceProvider.Resolve<FpgaService>().RegisterLoader<QuartusLoader>();
 
         var defaultQuartusPath = PlatformHelper.Platform switch
         {
@@ -62,7 +57,7 @@ public class QuartusModule : IModule
 
             if (!IsQuartusPathValid(x))
             {
-                containerProvider.Resolve<ILogger>().Warning("Quartus path invalid", null, false);
+                serviceProvider.Resolve<ILogger>().Warning("Quartus path invalid", null, false);
                 return;
             }
             

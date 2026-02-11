@@ -1,13 +1,13 @@
 ﻿using Avalonia.Media;
 using Avalonia.Threading;
+using Microsoft.Extensions.Logging;
 using OneWare.Essentials.Enums;
-using OneWare.Essentials.Models;
 using OneWare.Essentials.Services;
 using OneWare.UniversalFpgaProjectSystem.Models;
 
 namespace OneWare.Quartus.Services;
 
-public class QuartusService(IChildProcessService childProcessService, ILogger logger, IOutputService outputService, IDockService dockService)
+public class QuartusService(IChildProcessService childProcessService, ILogger logger, IOutputService outputService, IMainDockService dockService)
 {
     public async Task<bool> CompileAsync(UniversalFpgaProjectRoot project, FpgaModel fpga)
     {
@@ -23,7 +23,7 @@ public class QuartusService(IChildProcessService childProcessService, ILogger lo
         outputService.WriteLine("Compiling...\n==================", Brushes.CornflowerBlue);
         
         var (success, _) =await childProcessService.ExecuteShellAsync("quartus_sh",
-            ["--flow", "compile", Path.GetFileNameWithoutExtension(project.TopEntity.Header)],
+            ["--flow", "compile", Path.GetFileNameWithoutExtension(project.TopEntity)],
             project.FullPath, "Running Quartus Prime Shell...", AppState.Loading, true, (x) =>
             {
                 var output = x.TrimStart();

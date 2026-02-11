@@ -1,5 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using OneWare.UniversalFpgaProjectSystem.Models;
+﻿using OneWare.UniversalFpgaProjectSystem.Models;
 
 namespace OneWare.Quartus.Helper;
 
@@ -7,7 +6,7 @@ public static partial class QsfHelper
 {
     public static string GetQsfPath(UniversalFpgaProjectRoot project)
     {
-        return Path.Combine(project.RootFolderPath, Path.GetFileNameWithoutExtension(project.TopEntity?.FullPath ?? throw new Exception("TopEntity not set!")) + ".qsf");
+        return Path.Combine(project.RootFolderPath, Path.GetFileNameWithoutExtension(project.TopEntity ?? throw new Exception("TopEntity not set!")) + ".qsf");
     }
 
     public static QsfFile ReadQsf(string path)

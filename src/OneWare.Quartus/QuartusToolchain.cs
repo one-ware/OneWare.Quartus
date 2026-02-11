@@ -1,4 +1,5 @@
-﻿using OneWare.Essentials.Services;
+﻿using Microsoft.Extensions.Logging;
+using OneWare.Essentials.Services;
 using OneWare.Quartus.Helper;
 using OneWare.Quartus.Services;
 using OneWare.UniversalFpgaProjectSystem.Models;
@@ -9,6 +10,7 @@ namespace OneWare.Quartus;
 
 public class QuartusToolchain(QuartusService quartusService, ILogger logger) : IFpgaToolchain
 {
+    public string Id => "quartus";
 
     public string Name => "Quartus";
 
@@ -65,8 +67,9 @@ public class QuartusToolchain(QuartusService quartusService, ILogger logger) : I
     {
         try
         {
-            var topEntity = project.TopEntity?.Header ?? throw new Exception("No TopEntity set!");
-            topEntity = Path.GetFileNameWithoutExtension(topEntity);
+            if(project.TopEntity == null) throw new Exception("No TopEntity set!");
+            
+            var topEntity = Path.Combine(project.RootFolderPath, project.TopEntity);
             
             var properties = FpgaSettingsParser.LoadSettings(project, fpga.Fpga.Name);
 
@@ -90,7 +93,7 @@ public class QuartusToolchain(QuartusService quartusService, ILogger logger) : I
             
             //Add Files
             qsf.RemoveFileAssignments();
-            foreach (var file in project.Files)
+            foreach (var file in project.GetFiles())
             {
                 qsf.AddFile(file);
             }

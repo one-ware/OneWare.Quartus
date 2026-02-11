@@ -118,42 +118,42 @@ public partial class QsfFile(string[] lines)
         Lines = Lines.Where(x => !regex.IsMatch(x)).ToList();
     }
     
-    public void AddFile(IProjectFile file)
+    public void AddFile(string relativePath)
     {
-        switch (file.Extension)
+        switch (Path.GetExtension(relativePath).ToLowerInvariant())
         {
             case ".vhd" or ".vhdl":
-                Lines.Add($"set_global_assignment -name VHDL_FILE {file.RelativePath.ToUnixPath()}");
+                Lines.Add($"set_global_assignment -name VHDL_FILE {relativePath.ToUnixPath()}");
                 break;
             case ".v":
-                Lines.Add($"set_global_assignment -name VERILOG_FILE {file.RelativePath.ToUnixPath()}");
+                Lines.Add($"set_global_assignment -name VERILOG_FILE {relativePath.ToUnixPath()}");
                 break;
             case ".sv":
-                Lines.Add($"set_global_assignment -name SYSTEMVERILOG_FILE {file.RelativePath.ToUnixPath()}");
+                Lines.Add($"set_global_assignment -name SYSTEMVERILOG_FILE {relativePath.ToUnixPath()}");
                 break;
             case ".qip":
-                Lines.Add($"set_global_assignment -name QIP_FILE {file.RelativePath.ToUnixPath()}");
+                Lines.Add($"set_global_assignment -name QIP_FILE {relativePath.ToUnixPath()}");
                 break;
             case ".qsys":
-                Lines.Add($"set_global_assignment -name QSYS_FILE {file.RelativePath.ToUnixPath()}");
+                Lines.Add($"set_global_assignment -name QSYS_FILE {relativePath.ToUnixPath()}");
                 break;
             case ".bdf":
-                Lines.Add($"set_global_assignment -name BDF_FILE {file.RelativePath.ToUnixPath()}");
+                Lines.Add($"set_global_assignment -name BDF_FILE {relativePath.ToUnixPath()}");
                 break;
             case ".ahdl":
-                Lines.Add($"set_global_assignment -name AHDL_FILE {file.RelativePath.ToUnixPath()}");
+                Lines.Add($"set_global_assignment -name AHDL_FILE {relativePath.ToUnixPath()}");
                 break;
             case ".smf":
-                Lines.Add($"set_global_assignment -name SMF_FILE {file.RelativePath.ToUnixPath()}");
+                Lines.Add($"set_global_assignment -name SMF_FILE {relativePath.ToUnixPath()}");
                 break;
             case ".tcl":
-                Lines.Add($"set_global_assignment -name TCL_SCRIPT_FILE {file.RelativePath.ToUnixPath()}");
+                Lines.Add($"set_global_assignment -name TCL_SCRIPT_FILE {relativePath.ToUnixPath()}");
                 break;
             case ".hex":
-                Lines.Add($"set_global_assignment -name HEX_FILE {file.RelativePath.ToUnixPath()}");
+                Lines.Add($"set_global_assignment -name HEX_FILE {relativePath.ToUnixPath()}");
                 break;
             case ".mif":
-                Lines.Add($"set_global_assignment -name MIF_FILE {file.RelativePath.ToUnixPath()}");
+                Lines.Add($"set_global_assignment -name MIF_FILE {relativePath.ToUnixPath()}");
                 break;
         }
     }

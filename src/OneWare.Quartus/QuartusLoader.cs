@@ -1,20 +1,18 @@
-﻿using AvaloniaEdit.Utils;
-using DynamicData;
-using Microsoft.Extensions.Logging;
-using OneWare.Essentials.Behaviors;
+﻿using Microsoft.Extensions.Logging;
 using OneWare.Essentials.Enums;
 using OneWare.Essentials.Services;
 using OneWare.Quartus.Helper;
 using OneWare.UniversalFpgaProjectSystem.Models;
 using OneWare.UniversalFpgaProjectSystem.Parser;
 using OneWare.UniversalFpgaProjectSystem.Services;
-using ILogger = OneWare.Essentials.Services.ILogger;
 
 namespace OneWare.Quartus;
 
 public class QuartusLoader(IChildProcessService childProcessService, ISettingsService settingsService, ILogger logger)
     : IFpgaLoader
 {
+    public string Id => "quartus";
+    
     public string Name => "Quartus";
 
     private string? FirstFileInPath(string path, string extension)
@@ -34,7 +32,7 @@ public class QuartusLoader(IChildProcessService childProcessService, ISettingsSe
 
     public async Task DownloadAsync(UniversalFpgaProjectRoot project)
     {
-        var fpga = project.GetProjectProperty("Fpga");
+        var fpga = project.Properties.GetString("fpga");
         if (fpga == null) return;
 
         var longTerm = settingsService.GetSettingValue<bool>("UniversalFpgaProjectSystem_LongTermProgramming");

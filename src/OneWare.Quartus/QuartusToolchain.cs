@@ -95,7 +95,12 @@ public class QuartusToolchain(QuartusService quartusService, ILogger logger) : I
             
             //Add Files
             qsf.RemoveFileAssignments();
-            foreach (var file in project.GetFiles())
+            
+            var includedFiles = project.GetFiles()
+                .Where(x => !project.IsCompileExcluded(x))
+                .Where(x => !project.IsTestBench(x));
+            
+            foreach (var file in includedFiles)
             {
                 qsf.AddFile(file);
             }

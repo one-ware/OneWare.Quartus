@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/Actions/">
+    <File Path=".github/workflows/publish.yml" />
+    <File Path=".github/workflows/test.yml" />
+  </Folder>
+  <Folder Name="/Properties/">
+    <File Path="Extension.md" />
+    <File Path="License.md" />
+    <File Path="oneware-extension.json" />
+  </Folder>
+  <Project Path="src/OneWare.Quartus/OneWare.Quartus.csproj" />
+  <Project Path="tests/OneWare.Quartus.UnitTests/OneWare.Quartus.UnitTests.csproj" />
+</Solution>

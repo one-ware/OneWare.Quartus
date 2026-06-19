@@ -1,12 +1,11 @@
 ﻿using System.Text.RegularExpressions;
-using OneWare.Essentials.Extensions;
 using OneWare.Essentials.Models;
 
 namespace OneWare.Quartus.Helper;
 
 public partial class QsfFile(string[] lines)
 {
-    [GeneratedRegex(@"set_location_assignment\s*PIN_(\w+)\s+-to\s+(\w+)")]
+    [GeneratedRegex(@"set_location_assignment\s*PIN_(\w+)\s+-to\s+([\w\[\]]+)")]
     private static partial Regex LocationAssignmentRegex();
     
     [GeneratedRegex(@"set_location_assignment\s")]
@@ -25,6 +24,9 @@ public partial class QsfFile(string[] lines)
     private static partial Regex InstanceAssignmentRegex();
     
     public List<string> Lines { get; private set; } = lines.ToList();
+
+    /// <summary>Normalises path separators to forward-slash for Quartus TCL compatibility.</summary>
+    private static string ToUnixPath(string path) => path.Replace('\\', '/');
 
     public string? GetQsfProperty(string propertyName)
     {
@@ -177,40 +179,62 @@ public partial class QsfFile(string[] lines)
     
     public void AddFile(string relativePath)
     {
+        var unixPath = ToUnixPath(relativePath);
         switch (Path.GetExtension(relativePath).ToLowerInvariant())
         {
             case ".vhd" or ".vhdl":
-                Lines.Add($"set_global_assignment -name VHDL_FILE {relativePath.ToUnixPath()}");
+                Lines.Add($"set_global_assignment -name VHDL_FILE {unixPath}");
                 break;
             case ".v":
-                Lines.Add($"set_global_assignment -name VERILOG_FILE {relativePath.ToUnixPath()}");
+                Lines.Add($"set_global_assignment -name VERILOG_FILE {unixPath}");
                 break;
             case ".sv":
-                Lines.Add($"set_global_assignment -name SYSTEMVERILOG_FILE {relativePath.ToUnixPath()}");
+                Lines.Add($"set_global_assignment -name SYSTEMVERILOG_FILE {unixPath}");
+                break;
+            case ".vt":
+                Lines.Add($"set_global_assignment -name VERILOG_TEST_BENCH_FILE {unixPath}");
+                break;
+            case ".vht":
+                Lines.Add($"set_global_assignment -name VHDL_TEST_BENCH_FILE {unixPath}");
                 break;
             case ".qip":
-                Lines.Add($"set_global_assignment -name QIP_FILE {relativePath.ToUnixPath()}");
+                Lines.Add($"set_global_assignment -name QIP_FILE {unixPath}");
+                break;
+            case ".ip":
+                Lines.Add($"set_global_assignment -name IP_FILE {unixPath}");
                 break;
             case ".qsys":
-                Lines.Add($"set_global_assignment -name QSYS_FILE {relativePath.ToUnixPath()}");
+                Lines.Add($"set_global_assignment -name QSYS_FILE {unixPath}");
                 break;
             case ".bdf":
-                Lines.Add($"set_global_assignment -name BDF_FILE {relativePath.ToUnixPath()}");
+                Lines.Add($"set_global_assignment -name BDF_FILE {unixPath}");
                 break;
             case ".ahdl":
-                Lines.Add($"set_global_assignment -name AHDL_FILE {relativePath.ToUnixPath()}");
+                Lines.Add($"set_global_assignment -name AHDL_FILE {unixPath}");
+                break;
+            case ".sdc":
+                Lines.Add($"set_global_assignment -name SDC_FILE {unixPath}");
+                break;
+            case ".stp":
+                Lines.Add($"set_global_assignment -name SIGNALTAP_FILE {unixPath}");
+                break;
+            case ".edf" or ".edif":
+                Lines.Add($"set_global_assignment -name EDIF_FILE {unixPath}");
+                break;
+            case ".vqm":
+                Lines.Add($"set_global_assignment -name VQM_FILE {unixPath}");
                 break;
             case ".smf":
-                Lines.Add($"set_global_assignment -name SMF_FILE {relativePath.ToUnixPath()}");
+                Lines.Add($"set_global_assignment -name SMF_FILE {unixPath}");
                 break;
             case ".tcl":
-                Lines.Add($"set_global_assignment -name TCL_SCRIPT_FILE {relativePath.ToUnixPath()}");
+                Lines.Add($"set_global_assignment -name TCL_SCRIPT_FILE {unixPath}");
                 break;
             case ".hex":
-                Lines.Add($"set_global_assignment -name HEX_FILE {relativePath.ToUnixPath()}");
+                Lines.Add($"set_global_assignment -name HEX_FILE {unixPath}");
                 break;
             case ".mif":
-                Lines.Add($"set_global_assignment -name MIF_FILE {relativePath.ToUnixPath()}");
+                Lines.Add($"set_global_assignment -name MIF_FILE {unixPath}");
                 break;
         }
     }

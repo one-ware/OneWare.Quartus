@@ -97,4 +97,58 @@ public class OneWareQuartusTests
         Assert.Contains(instances, i => i.Name == "IO_STANDARD" && i.Value == "3.3-V LVCMOS" && i.Signal == "led");
         Assert.Contains(instances, i => i.Name == "IO_STANDARD" && i.Value == "1.2 V" && i.Signal == "clk");
     }
+
+    [Fact]
+    public void QsfFile_GetLocationAssignments_BusSignalWithIndex()
+    {
+        var qsf = new QsfFile([
+            "set_location_assignment PIN_T2  -to HDMI_DATA[1]",
+            "set_location_assignment PIN_V1  -to HDMI_DATA[2]",
+            "set_location_assignment PIN_AB1 -to HDMI_DATA[10]"
+        ]);
+
+        var locations = qsf.GetLocationAssignments().ToList();
+        Assert.Equal(3, locations.Count);
+        Assert.Contains(("T2",  "HDMI_DATA[1]"),  locations);
+        Assert.Contains(("V1",  "HDMI_DATA[2]"),  locations);
+        Assert.Contains(("AB1", "HDMI_DATA[10]"), locations);
+    }
+
+    [Theory]
+    [InlineData("constraints.sdc",  "SDC_FILE")]
+    [InlineData("core.ip",          "IP_FILE")]
+    [InlineData("stp1.stp",         "SIGNALTAP_FILE")]
+    [InlineData("netlist.edf",      "EDIF_FILE")]
+    [InlineData("netlist.edif",     "EDIF_FILE")]
+    [InlineData("mapped.vqm",       "VQM_FILE")]
+    [InlineData("tb.vt",            "VERILOG_TEST_BENCH_FILE")]
+    [InlineData("tb.vht",           "VHDL_TEST_BENCH_FILE")]
+    [InlineData("top.vhd",          "VHDL_FILE")]
+    [InlineData("top.v",            "VERILOG_FILE")]
+    [InlineData("top.sv",           "SYSTEMVERILOG_FILE")]
+    [InlineData("ip.qip",           "QIP_FILE")]
+    [InlineData("sys.qsys",         "QSYS_FILE")]
+    [InlineData("sch.bdf",          "BDF_FILE")]
+    [InlineData("src.ahdl",         "AHDL_FILE")]
+    [InlineData("script.tcl",       "TCL_SCRIPT_FILE")]
+    [InlineData("data.hex",         "HEX_FILE")]
+    [InlineData("data.mif",         "MIF_FILE")]
+    [InlineData("mem.smf",          "SMF_FILE")]
+    public void QsfFile_AddFile_ProducesCorrectGlobalAssignment(string filename, string expectedKeyword)
+    {
+        var qsf = new QsfFile([]);
+        qsf.AddFile(filename);
+
+        Assert.Single(qsf.Lines);
+        Assert.Contains(expectedKeyword, qsf.Lines[0]);
+        Assert.Contains(filename, qsf.Lines[0]);
+    }
+
+    [Fact]
+    public void QsfFile_AddFile_UnknownExtension_AddsNoLine()
+    {
+        var qsf = new QsfFile([]);
+        qsf.AddFile("readme.txt");
+        Assert.Empty(qsf.Lines);
+    }
 }

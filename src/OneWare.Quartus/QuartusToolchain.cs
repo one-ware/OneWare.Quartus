@@ -179,7 +179,12 @@ public class QuartusToolchain(QuartusService quartusService, ILogger logger) : I
                 .Where(x => !project.IsCompileExcluded(x))
                 .Where(x => !project.IsTestBench(x));
             
-            foreach (var file in includedFiles)
+            // Quartus evaluates QSF entries top-to-bottom, so the order matters:
+            //   1. HDL source files
+            //   2. IP / QIP / QSYS files  (their auto-generated SDCs define IP clock names)
+            //   3. SDC files              (must come AFTER the IPs whose clocks they reference)
+            //   4. Everything else (TCL, HEX, MIF, STP, …)
+            foreach (var file in includedFiles.OrderBy(FileOrderKey))
             {
                 qsf.AddFile(file);
             }
@@ -194,4 +199,23 @@ public class QuartusToolchain(QuartusService quartusService, ILogger logger) : I
             return Task.FromResult(false);
         }
     }
+
+    /// <summary>
+    /// Controls the order in which source files are written to the QSF.
+    /// Quartus processes QSF entries top-to-bottom, so IP files must appear
+    /// before any SDC that references clocks created by those IPs.
+    /// </summary>
+    private static int FileOrderKey(string path) =>
+        Path.GetExtension(path).ToLowerInvariant() switch
+        {
+            // 1 – HDL source: always first
+            ".vhd" or ".vhdl" or ".v" or ".sv" or ".bdf" or ".ahdl" or ".vqm"
+                or ".edf" or ".edif" => 0,
+            // 2 – IP cores: their auto-generated SDCs define clock names
+            ".qip" or ".ip" or ".qsys" => 1,
+            // 3 – Timing constraints: must follow the IPs they reference
+            ".sdc" => 2,
+            // 4 – Everything else (TCL, HEX, MIF, STP, …)
+            _ => 3
+        };
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using OneWare.Quartus.Helper;
 using Xunit;
@@ -151,4 +152,48 @@ public class OneWareQuartusTests
         qsf.AddFile("readme.txt");
         Assert.Empty(qsf.Lines);
     }
+
+    [Fact]
+    public void QsfFile_AddFile_OrderMatters_IpBeforeSdc()
+    {
+        // Simulate a project where GetFiles() returns files in "wrong" order.
+        // After sorting by FileOrderKey the QSF must have:
+        //   HDL → IP/QIP/QSYS → SDC → everything else
+        var files = new[]
+        {
+            "OnSemi_HDMI_groups.sdc",   // groups SDC – must come after every IP
+            "agilex_iopll.ip",          // IP core – must precede both SDCs
+            "top.sv",                   // HDL – always first
+            "OnSemi_HDMI.sdc",          // base-clocks SDC
+            "agilex_reset_release.qip", // another IP core
+        };
+
+        var ordered = files.OrderBy(FileOrderKey).ToList();
+
+        var svIdx          = ordered.IndexOf("top.sv");
+        var ipIdx          = ordered.IndexOf("agilex_iopll.ip");
+        var qipIdx         = ordered.IndexOf("agilex_reset_release.qip");
+        var groupsSdcIdx   = ordered.IndexOf("OnSemi_HDMI_groups.sdc");
+        var baseSdcIdx     = ordered.IndexOf("OnSemi_HDMI.sdc");
+
+        // HDL before IP
+        Assert.True(svIdx < ipIdx,       "HDL must come before IP");
+        Assert.True(svIdx < qipIdx,      "HDL must come before QIP");
+        // IP before every SDC (the critical constraint for IP-generated clock names)
+        Assert.True(ipIdx  < groupsSdcIdx, "IP must come before groups SDC");
+        Assert.True(ipIdx  < baseSdcIdx,   "IP must come before base SDC");
+        Assert.True(qipIdx < groupsSdcIdx, "QIP must come before groups SDC");
+        Assert.True(qipIdx < baseSdcIdx,   "QIP must come before base SDC");
+    }
+
+    // Mirrors QuartusToolchain.FileOrderKey so the test is self-contained.
+    private static int FileOrderKey(string path) =>
+        Path.GetExtension(path).ToLowerInvariant() switch
+        {
+            ".vhd" or ".vhdl" or ".v" or ".sv" or ".bdf" or ".ahdl" or ".vqm"
+                or ".edf" or ".edif" => 0,
+            ".qip" or ".ip" or ".qsys" => 1,
+            ".sdc" => 2,
+            _ => 3
+        };
 }

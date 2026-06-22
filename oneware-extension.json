@@ -95,6 +95,15 @@
           "target": "all"
         }
       ]
+    },
+    {
+      "version": "1.0.3",
+      "minStudioVersion": "1.0.19",
+      "targets": [
+        {
+          "target": "all"
+        }
+      ]
     }
   ]
 }

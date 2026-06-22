@@ -5,7 +5,7 @@ namespace OneWare.Quartus.Helper;
 
 public partial class QsfFile(string[] lines)
 {
-    [GeneratedRegex(@"set_location_assignment\s*PIN_(\w+)\s+-to\s+([\w\[\]]+)")]
+    [GeneratedRegex(@"set_location_assignment\s*PIN_(\w+)\s+-to\s+([\w\[\]]+(?:\(n\))?)")]
     private static partial Regex LocationAssignmentRegex();
     
     [GeneratedRegex(@"set_location_assignment\s")]
@@ -19,7 +19,7 @@ public partial class QsfFile(string[] lines)
     ///      or: set_instance_assignment -name NAME unquoted -to signal [-entity entity]
     /// Groups: 1=name, 2=quoted-value (may be empty), 3=unquoted-value, 4=signal, 5=entity
     /// </summary>
-    [GeneratedRegex(@"set_instance_assignment\s+-name\s+(\w+)\s+(?:""([^""]*)""|(\S+))\s+-to\s+(\w+)(?:\s+-entity\s+(\w+))?",
+    [GeneratedRegex(@"set_instance_assignment\s+-name\s+(\w+)\s+(?:""([^""]*)""|(\S+))\s+-to\s+([\w\[\]]+(?:\(n\))?)(?:\s+-entity\s+(\w+))?",
         RegexOptions.IgnoreCase)]
     private static partial Regex InstanceAssignmentRegex();
     
